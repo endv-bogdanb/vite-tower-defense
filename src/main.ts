@@ -1,19 +1,29 @@
 import "./style.css";
 
-const canvas = document.querySelector("#app") as HTMLCanvasElement;
-canvas.width = 1280;
-canvas.height = 768;
-const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
+import { Game } from "./Game";
+import { type GameTime, GameState, GameSettings } from "./settings";
 
-const loopId = { id: 0 };
+const loop = (time: GameTime): void => {
+  console.log("here ", time, GameState.time);
+  GameState.ctx.fillStyle = "#fff";
+  GameState.ctx.fillRect(
+    0,
+    0,
+    GameSettings.canvas.width,
+    GameSettings.canvas.height,
+  );
 
-const loop: FrameRequestCallback = (): void => {
-  cancelAnimationFrame(loopId.id);
-  ctx.fillStyle = "#fff";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  loopId.id = requestAnimationFrame(loop);
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  GameState.ctx.drawImage(GameState.assets.get("game-map")!, 0, 0);
 };
 
 window.addEventListener("load", () => {
-  loopId.id = requestAnimationFrame(loop);
+  const canvas = document.querySelector("#app") as HTMLCanvasElement;
+  GameState.context = canvas.getContext("2d") as CanvasRenderingContext2D;
+  canvas.width = GameSettings.canvas.width;
+  canvas.height = GameSettings.canvas.height;
+
+  GameState.loadAssets().then(() => {
+    Game.start(loop);
+  }, console.error);
 });

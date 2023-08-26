@@ -13,6 +13,7 @@
     "project": "./tsconfig.json"
   },
   "rules": {
-    "prettier/prettier": ["error", { "usePrettierrc": true }]
+    "prettier/prettier": ["error", { "usePrettierrc": true }],
+    "@typescript-eslint/no-extraneous-class": "off"
   }
 }
