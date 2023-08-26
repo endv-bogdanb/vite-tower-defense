@@ -1,0 +1,1 @@
+html,body{background-color:#000;font-size:2rem}.wrapper{position:relative;display:inline-block}.game-over{display:none;position:absolute;width:fit-content;top:25%;left:25%;font-size:6rem;color:#fff;-webkit-text-stroke:3px #000000}.stats{display:flex;position:absolute;top:0;right:0;justify-content:center;align-items:center;gap:32px}
