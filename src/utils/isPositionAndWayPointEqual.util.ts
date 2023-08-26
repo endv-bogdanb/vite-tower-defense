@@ -3,9 +3,9 @@ import { type Position, type Waypoint } from "../settings";
 export const isPositionAndWayPointEqual = (
   position: Position,
   waypoint: Waypoint,
+  velocity: Position,
 ): boolean => {
-  return (
-    Math.round(position.x) === Math.round(waypoint.x) &&
-    Math.round(position.y) === Math.round(waypoint.y)
-  );
+  const xDiff = Math.abs(Math.round(position.x) - Math.round(waypoint.x));
+  const yDiff = Math.abs(Math.round(position.y) - Math.round(waypoint.y));
+  return xDiff < Math.abs(velocity.x) && yDiff < Math.abs(velocity.y);
 };

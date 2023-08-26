@@ -4,7 +4,7 @@ import { Sprite } from "./internals/Sprite.entity";
 
 export default class Projectile extends Sprite {
   private readonly velocity: Position = { x: 0, y: 0 };
-  private readonly power = 5;
+  private readonly speed = 5;
 
   constructor(
     position: Position,
@@ -24,8 +24,8 @@ export default class Projectile extends Sprite {
     this.velocity.x = Math.cos(angle);
     this.velocity.y = Math.sin(angle);
 
-    this.x += this.velocity.x * this.power;
-    this.y += this.velocity.y * this.power;
+    this.x += this.velocity.x * this.speed;
+    this.y += this.velocity.y * this.speed;
 
     const distance = Math.hypot(
       this.enemy.center.x - this.x,

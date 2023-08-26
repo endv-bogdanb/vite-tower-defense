@@ -16,8 +16,15 @@ const loop = (): void => {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   GameState.ctx.drawImage(GameAssets.assets.get("game-map")!, 0, 0);
 
+  if (GameState.health === 0) {
+    Game.stop();
+    const gameOver = document.querySelector("h1");
+    gameOver?.setAttribute("style", "display:block");
+    return;
+  }
+
   if (GameEntities.enemies.length === 0) {
-    GameState.round += 2;
+    GameState.round += 1;
     GameEntities.spawnEnemies();
   }
 

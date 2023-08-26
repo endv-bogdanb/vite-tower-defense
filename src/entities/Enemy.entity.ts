@@ -1,6 +1,7 @@
 import {
   GameAssets,
   GameEntities,
+  GameSettings,
   GameState,
   type Position,
   type Waypoint,
@@ -11,6 +12,8 @@ import { Sprite } from "./internals/Sprite.entity";
 export default class Enemy extends Sprite {
   private waypointIndex = 0;
   private health = 100;
+  private readonly velocity: Position = { x: 0, y: 0 };
+  private readonly speed = 3;
 
   constructor(position: Position) {
     super(position, 100, 100);
@@ -20,6 +23,7 @@ export default class Enemy extends Sprite {
     this.draw();
     this.updatePosition();
     this.updateWaypointIndex();
+    this.isOffMap();
   };
 
   protected override readonly draw = (): void => {
@@ -57,16 +61,26 @@ export default class Enemy extends Sprite {
       this.waypoint.x - this.center.x,
     );
 
-    this.x += Math.cos(angle);
-    this.y += Math.sin(angle);
+    this.velocity.x = Math.cos(angle) * this.speed;
+    this.velocity.y = Math.sin(angle) * this.speed;
+
+    this.x += this.velocity.x;
+    this.y += this.velocity.y;
   };
 
   private readonly updateWaypointIndex = (): void => {
-    if (isPositionAndWayPointEqual(this.center, this.waypoint)) {
+    if (isPositionAndWayPointEqual(this.center, this.waypoint, this.velocity)) {
       this.waypointIndex = Math.min(
         this.waypointIndex + 1,
         GameAssets.waypoints.length - 1,
       );
+    }
+  };
+
+  private readonly isOffMap = (): void => {
+    if (this.x > GameSettings.canvas.width) {
+      GameEntities.removeEnemy(this);
+      GameState.health = Math.max(0, GameState.health - 1);
     }
   };
 
