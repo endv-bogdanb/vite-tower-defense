@@ -1,4 +1,12 @@
-export { default as GameSettings } from "./game.settings";
+export type * from "./game.assets";
+export { default as GameAssets } from "./game.assets";
+export type * from "./game.entities";
+export { default as GameEntities } from "./game.entities";
+export type * from "./game.mouse";
+export { default as GameMouse } from "./game.mouse";
 export type * from "./game.settings";
-export { default as GameState } from "./game.state";
+export { default as GameSettings } from "./game.settings";
 export type * from "./game.state";
+export { default as GameState } from "./game.state";
+export type * from "./game.time";
+export { default as GameTime } from "./game.time";

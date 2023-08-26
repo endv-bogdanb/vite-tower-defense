@@ -1,9 +1,8 @@
-import { type Position } from "../entities";
-import { type GameState } from "../settings";
+import { type Position, type Waypoint } from "../settings";
 
 export const isPositionAndWayPointEqual = (
   position: Position,
-  waypoint: (typeof GameState.waypoints)[number],
+  waypoint: Waypoint,
 ): boolean => {
   return (
     Math.round(position.x) === Math.round(waypoint.x) &&

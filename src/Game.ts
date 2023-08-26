@@ -1,9 +1,12 @@
-import { type GameTime, GameState } from "./settings";
+import { type Time, GameState, GameTime } from "./settings";
 
 export class Game {
-  private static callback: (time: GameTime) => void;
+  private static callback: (time: Time) => void;
 
-  static readonly start = (callback: typeof this.callback): void => {
+  static readonly start = async (
+    callback: typeof this.callback,
+  ): Promise<void> => {
+    await GameState.load();
     this.callback = callback;
     GameState.schedule(this.loop);
   };
@@ -13,8 +16,8 @@ export class Game {
   };
 
   private static readonly loop: FrameRequestCallback = (time) => {
-    GameState.updateTime(time);
-    this.callback(GameState.time);
+    GameTime.updateTime(time);
+    this.callback(GameTime.time);
     GameState.schedule(this.loop);
   };
 }

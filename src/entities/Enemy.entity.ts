@@ -1,31 +1,21 @@
-import { GameState } from "../settings";
+import {
+  GameAssets,
+  GameState,
+  type Position,
+  type Waypoint,
+} from "../settings";
 import { isPositionAndWayPointEqual } from "../utils";
+import { Sprite } from "./internals/Sprite.entity";
 
-export interface Position {
-  x: number;
-  y: number;
-}
-
-export default class Enemy {
-  private readonly width = 100;
-  private readonly height = 100;
+export default class Enemy extends Sprite {
   private center!: Position;
 
   private waypointIndex = 0;
 
-  constructor(private readonly position: Position) {
+  constructor(position: Position) {
+    super(position, 100, 100);
     this.updateCenter();
   }
-
-  public draw = (): void => {
-    GameState.ctx.fillStyle = "#ff0000";
-    GameState.ctx.fillRect(
-      this.position.x,
-      this.position.y,
-      this.width,
-      this.height,
-    );
-  };
 
   public update = (): void => {
     this.draw();
@@ -34,20 +24,25 @@ export default class Enemy {
     this.updateWaypointIndex();
   };
 
+  private readonly draw = (): void => {
+    GameState.ctx.fillStyle = "#ff0000";
+    GameState.ctx.fillRect(this.x, this.y, this.w, this.h);
+  };
+
   private readonly updatePosition = (): void => {
     const angle = Math.atan2(
       this.waypoint.y - this.center.y,
       this.waypoint.x - this.center.x,
     );
 
-    this.position.x += Math.cos(angle);
-    this.position.y += Math.sin(angle);
+    this.x += Math.cos(angle);
+    this.y += Math.sin(angle);
   };
 
   private readonly updateCenter = (): void => {
     this.center = {
-      x: this.position.x + this.width / 2,
-      y: this.position.y + this.height / 2,
+      x: this.x + this.w / 2,
+      y: this.y + this.h / 2,
     };
   };
 
@@ -55,12 +50,12 @@ export default class Enemy {
     if (isPositionAndWayPointEqual(this.center, this.waypoint)) {
       this.waypointIndex = Math.min(
         this.waypointIndex + 1,
-        GameState.waypoints.length,
+        GameAssets.waypoints.length - 1,
       );
     }
   };
 
-  private get waypoint(): (typeof GameState.waypoints)[number] {
-    return GameState.waypoints[this.waypointIndex];
+  private get waypoint(): Waypoint {
+    return GameAssets.waypoints[this.waypointIndex];
   }
 }
