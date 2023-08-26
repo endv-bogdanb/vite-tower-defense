@@ -1,6 +1,6 @@
 import { type Position } from "../../settings";
 
-export class Sprite {
+export abstract class Sprite {
   constructor(
     protected readonly _position: Position,
     protected readonly width: number,
@@ -34,4 +34,17 @@ export class Sprite {
   public get h(): number {
     return this.height;
   }
+
+  public get center(): Position {
+    return {
+      x: this.x + this.w / 2,
+      y: this.y + this.h / 2,
+    };
+  }
+
+  public abstract update(): void;
+
+  protected abstract draw(): void;
+
+  protected abstract debug(): void;
 }

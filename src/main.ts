@@ -1,7 +1,8 @@
 import "./style.css";
 
 import { Game } from "./Game";
-import { GameState, GameSettings, GameAssets, GameEntities } from "./settings";
+import { GameAssets, GameEntities, GameSettings, GameState } from "./settings";
+import { forEachRight } from "./utils";
 
 const loop = (): void => {
   GameState.ctx.fillStyle = "#ffffff";
@@ -18,11 +19,19 @@ const loop = (): void => {
   GameEntities.enemies.forEach((enemy) => {
     enemy.update();
   });
-  GameEntities.placements.forEach((placement) => {
-    placement.update();
+  GameEntities.placementTiles.forEach((placementTile) => {
+    placementTile.update();
   });
   GameEntities.buildings.forEach((building) => {
     building.update();
+  });
+  for (let i = GameEntities.projectiles.length - 1; i >= 0; i -= 1) {
+    const projectile = GameEntities.projectiles[i];
+    projectile.update();
+  }
+
+  forEachRight(GameEntities.projectiles, (projectile) => {
+    projectile.update();
   });
 };
 

@@ -17,6 +17,7 @@ export class Game {
 
   private static readonly loop: FrameRequestCallback = (time) => {
     GameTime.updateTime(time);
+    GameState.tick();
     this.callback(GameTime.time);
     GameState.schedule(this.loop);
   };
