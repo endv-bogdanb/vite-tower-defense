@@ -1,4 +1,4 @@
-import { GameAssets, type Position } from ".";
+import { GameAssets, GameSettings, GameState, type Position } from ".";
 import { Enemy, PlacementTile, Building, Projectile } from "../entities";
 
 export default class GameEntities {
@@ -29,12 +29,27 @@ export default class GameEntities {
 
   static removeProjectile = (projectile: Projectile): void => {
     const index = this.projectiles.indexOf(projectile);
-    this.projectiles.splice(index, 1);
+    if (index > -1) {
+      this.projectiles.splice(index, 1);
+    }
   };
 
-  private static readonly loadEnemies = (): void => {
+  static removeEnemy = (enemy: Enemy): void => {
+    const index = this.enemies.indexOf(enemy);
+    if (index > -1) {
+      this.enemies.splice(index, 1);
+    }
+  };
+
+  static spawnEnemies = (): void => {
+    this.loadEnemies(GameSettings.spawnedEnemies + GameState.round);
+  };
+
+  private static readonly loadEnemies = (
+    enemies: number = GameSettings.spawnedEnemies,
+  ): void => {
     const [{ x, y }] = GameAssets.waypoints;
-    for (let i = 1; i < 11; i += 1) {
+    for (let i = 1; i < enemies + 1; i += 1) {
       const offset = i * 150;
       this.enemies.push(new Enemy({ x: x - offset, y }));
     }

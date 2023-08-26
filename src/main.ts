@@ -16,19 +16,21 @@ const loop = (): void => {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   GameState.ctx.drawImage(GameAssets.assets.get("game-map")!, 0, 0);
 
-  GameEntities.enemies.forEach((enemy) => {
+  if (GameEntities.enemies.length === 0) {
+    GameState.round += 2;
+    GameEntities.spawnEnemies();
+  }
+
+  forEachRight(GameEntities.enemies, (enemy) => {
     enemy.update();
   });
+
   GameEntities.placementTiles.forEach((placementTile) => {
     placementTile.update();
   });
   GameEntities.buildings.forEach((building) => {
     building.update();
   });
-  for (let i = GameEntities.projectiles.length - 1; i >= 0; i -= 1) {
-    const projectile = GameEntities.projectiles[i];
-    projectile.update();
-  }
 
   forEachRight(GameEntities.projectiles, (projectile) => {
     projectile.update();

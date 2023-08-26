@@ -31,7 +31,9 @@ export default class Projectile extends Sprite {
       this.enemy.center.x - this.x,
       this.enemy.center.y - this.y,
     );
+
     if (distance < this.enemy.w + this.w) {
+      this.enemy.hit();
       GameEntities.removeProjectile(this);
     }
   };

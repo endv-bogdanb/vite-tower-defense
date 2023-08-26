@@ -9,6 +9,7 @@ export default class GameState {
   private static loopHandle = 0;
   static readonly ctx: CanvasRenderingContext2D;
   static readonly frames = 0;
+  static round = 0;
 
   // eslint-disable-next-line accessor-pairs
   static set context(ctx: CanvasRenderingContext2D) {
