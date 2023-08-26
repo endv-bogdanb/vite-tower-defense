@@ -1,11 +1,18 @@
 import { GameAssets, GameSettings, GameState, type Position } from ".";
-import { Enemy, PlacementTile, Building, Projectile } from "../entities";
+import {
+  Building,
+  Enemy,
+  Explosion,
+  PlacementTile,
+  Projectile,
+} from "../entities";
 
 export default class GameEntities {
   static readonly enemies: Enemy[] = [];
   static readonly placementTiles: PlacementTile[] = [];
   static readonly buildings: Building[] = [];
   static readonly projectiles: Projectile[] = [];
+  static readonly explosions: Explosion[] = [];
 
   static activeTile: PlacementTile | undefined = undefined;
 
@@ -24,6 +31,7 @@ export default class GameEntities {
       return;
     }
     this.buildings.push(new Building(activeTile.position));
+    this.buildings.sort((a, b) => a.y - b.y);
     activeTile.occupied = true;
     GameState.updateCoins(-25);
   };
@@ -36,6 +44,7 @@ export default class GameEntities {
     const index = this.projectiles.indexOf(projectile);
     if (index > -1) {
       this.projectiles.splice(index, 1);
+      this.explosions.push(new Explosion(projectile.position));
     }
   };
 
@@ -43,6 +52,13 @@ export default class GameEntities {
     const index = this.enemies.indexOf(enemy);
     if (index > -1) {
       this.enemies.splice(index, 1);
+    }
+  };
+
+  static removeExplosion = (explosion: Explosion): void => {
+    const index = this.explosions.indexOf(explosion);
+    if (index > -1) {
+      this.explosions.splice(index, 1);
     }
   };
 

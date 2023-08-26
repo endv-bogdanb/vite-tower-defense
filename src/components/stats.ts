@@ -1,8 +1,7 @@
-class Count extends HTMLElement {
+class Stats extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
-    // this.render();
   }
 
   static get observedAttributes(): string[] {
@@ -63,6 +62,6 @@ class Count extends HTMLElement {
   }
 }
 
-if (customElements.get("game-count") == null) {
-  customElements.define("game-count", Count);
+if (customElements.get("game-stats") == null) {
+  customElements.define("game-stats", Stats);
 }

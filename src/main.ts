@@ -33,6 +33,10 @@ const loop = (): void => {
     enemy.update();
   });
 
+  forEachRight(GameEntities.explosions, (explosion) => {
+    explosion.update();
+  });
+
   GameEntities.placementTiles.forEach((placementTile) => {
     placementTile.update();
   });

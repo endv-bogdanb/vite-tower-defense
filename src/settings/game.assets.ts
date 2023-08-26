@@ -3,10 +3,20 @@ export interface Waypoint {
   y: number;
 }
 
-const ASSETS = ["game-map"] as const;
+const ASSETS = ["game-map", "projectile", "orc", "tower", "explosion"] as const;
+
+export interface Asset {
+  src: (typeof ASSETS)[number];
+  frames: number;
+  hold: number;
+  offset: {
+    x: number;
+    y: number;
+  };
+}
 
 export default class GameAssets {
-  static readonly assets = new Map<(typeof ASSETS)[number], HTMLImageElement>();
+  static readonly assets = new Map<Asset["src"], HTMLImageElement>();
   static readonly waypoints: Waypoint[] = [];
   static readonly tiles: number[][] = [];
 
@@ -19,7 +29,7 @@ export default class GameAssets {
   };
 
   private static readonly loadImage = async (
-    src: (typeof ASSETS)[number],
+    src: Asset["src"],
   ): Promise<void> => {
     await new Promise<void>((resolve, reject) => {
       const image = new Image();

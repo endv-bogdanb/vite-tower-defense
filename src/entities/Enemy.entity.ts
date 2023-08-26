@@ -16,21 +16,24 @@ export default class Enemy extends Sprite {
   private readonly speed = 3;
 
   constructor(position: Position) {
-    super(position, 100, 100);
+    super(position, 100, 100, {
+      src: "orc",
+      frames: 7,
+      hold: 5,
+      offset: { x: 0, y: 0 },
+    });
   }
 
   public override update = (): void => {
     this.draw();
+    super.update();
     this.updatePosition();
     this.updateWaypointIndex();
     this.isOffMap();
   };
 
   protected override readonly draw = (): void => {
-    GameState.ctx.fillStyle = "#ff0000";
-    GameState.ctx.beginPath();
-    GameState.ctx.arc(this.center.x, this.center.y, this.w / 2, 0, Math.PI * 2);
-    GameState.ctx.fill();
+    super.draw();
 
     GameState.ctx.fillStyle = "#ff0000";
     GameState.ctx.fillRect(this.x, this.y - 15, this.w, 10);
@@ -46,7 +49,12 @@ export default class Enemy extends Sprite {
     if (import.meta.env.DEV) this.debug();
   };
 
-  protected override readonly debug = (): void => {};
+  protected override readonly debug = (): void => {
+    // GameState.ctx.fillStyle = "#ff0000";
+    // GameState.ctx.beginPath();
+    // GameState.ctx.arc(this.center.x, this.center.y, this.w / 2, 0, Math.PI * 2);
+    // GameState.ctx.fill();
+  };
 
   public readonly hit = (): void => {
     if (this.health === 0) {

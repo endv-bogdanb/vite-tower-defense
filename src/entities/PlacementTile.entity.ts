@@ -1,8 +1,8 @@
 import { GameEntities, GameMouse, GameState, type Position } from "../settings";
 import { isPositionContained } from "../utils";
-import { Sprite } from "./internals/Sprite.entity";
+import { Rect } from "./internals/Position.entity";
 
-export default class PlacementTile extends Sprite {
+export default class PlacementTile extends Rect {
   constructor(
     position: Position,
     private color = "rgba(255, 255, 255, .15)",
@@ -11,7 +11,7 @@ export default class PlacementTile extends Sprite {
     super(position, 64, 64);
   }
 
-  public override update = (): void => {
+  public update = (): void => {
     this.draw();
 
     if (
@@ -30,11 +30,11 @@ export default class PlacementTile extends Sprite {
     }
   };
 
-  protected override readonly draw = (): void => {
+  protected readonly draw = (): void => {
     GameState.ctx.fillStyle = this.color;
     GameState.ctx.fillRect(this.x, this.y, this.w, this.h);
     if (import.meta.env.DEV) this.debug();
   };
 
-  protected override readonly debug = (): void => {};
+  protected readonly debug = (): void => {};
 }
