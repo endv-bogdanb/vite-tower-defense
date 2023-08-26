@@ -1,7 +1,11 @@
+import { Enemy } from "../entities";
+
 export interface GameTime {
   readonly elapsed: number;
   readonly delta: number;
 }
+
+const ASSETS = ["game-map"] as const;
 
 export default class GameState {
   private static loopHandle = 0;
@@ -11,7 +15,9 @@ export default class GameState {
     delta: 0,
   } as const;
 
-  static readonly assets = new Map<"game-map", HTMLImageElement>();
+  static readonly assets = new Map<(typeof ASSETS)[number], HTMLImageElement>();
+  static readonly waypoints: Array<{ x: number; y: number }> = [];
+  static readonly enemies: Enemy[] = [];
 
   // eslint-disable-next-line accessor-pairs
   static set context(ctx: CanvasRenderingContext2D) {
@@ -24,21 +30,8 @@ export default class GameState {
   };
 
   static loadAssets = async (): Promise<void> => {
-    const sources = ["game-map"] as const;
-
-    await Promise.all([
-      sources.map(async (src) => {
-        await new Promise<void>((resolve, reject) => {
-          const image = new Image();
-          image.onload = () => {
-            resolve();
-          };
-          image.onerror = reject;
-          image.src = `/assets/${src}.png`;
-          this.assets.set(src, image);
-        });
-      }),
-    ]);
+    await Promise.all([ASSETS.map(this.loadImage), this.loadWaypoints()]);
+    this.loadEnemies();
   };
 
   static schedule = (loop: FrameRequestCallback): void => {
@@ -47,5 +40,36 @@ export default class GameState {
 
   static unschedule = (): void => {
     cancelAnimationFrame(this.loopHandle);
+  };
+
+  private static readonly loadImage = async (
+    src: (typeof ASSETS)[number],
+  ): Promise<void> => {
+    await new Promise<void>((resolve, reject) => {
+      const image = new Image();
+      image.onload = () => {
+        resolve();
+      };
+      image.onerror = reject;
+      image.src = `/assets/${src}.png`;
+      this.assets.set(src, image);
+    });
+  };
+
+  private static readonly loadWaypoints = async (): Promise<void> => {
+    const response = await fetch("/waypoints.json");
+    if (!response.ok) {
+      throw new Error(`${response.statusText !== "" || response.status}`);
+    }
+    const json = await response.json();
+    (this.waypoints as unknown) = json;
+  };
+
+  private static readonly loadEnemies = (): void => {
+    const [{ x, y }] = this.waypoints;
+    for (let i = 1; i < 11; i += 1) {
+      const offset = i * 150;
+      this.enemies.push(new Enemy({ x: x - offset, y }));
+    }
   };
 }

@@ -1,11 +1,10 @@
 import "./style.css";
 
 import { Game } from "./Game";
-import { type GameTime, GameState, GameSettings } from "./settings";
+import { GameState, GameSettings } from "./settings";
 
-const loop = (time: GameTime): void => {
-  console.log("here ", time, GameState.time);
-  GameState.ctx.fillStyle = "#fff";
+const loop = (): void => {
+  GameState.ctx.fillStyle = "#ffffff";
   GameState.ctx.fillRect(
     0,
     0,
@@ -15,6 +14,10 @@ const loop = (time: GameTime): void => {
 
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   GameState.ctx.drawImage(GameState.assets.get("game-map")!, 0, 0);
+
+  GameState.enemies.forEach((enemy) => {
+    enemy.update();
+  });
 };
 
 window.addEventListener("load", () => {
