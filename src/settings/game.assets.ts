@@ -37,13 +37,13 @@ export default class GameAssets {
         resolve();
       };
       image.onerror = reject;
-      image.src = `/assets/${src}.png`;
+      image.src = `assets/${src}.png`;
       this.assets.set(src, image);
     });
   };
 
   private static readonly loadWaypoints = async (): Promise<void> => {
-    const response = await fetch("/waypoints.json");
+    const response = await fetch("waypoints.json");
     if (!response.ok) {
       throw new Error(`${response.statusText !== "" || response.status}`);
     }
@@ -52,7 +52,7 @@ export default class GameAssets {
   };
 
   private static readonly loadTiles = async (): Promise<void> => {
-    const response = await fetch("/tiles.json");
+    const response = await fetch("tiles.json");
     if (!response.ok) {
       throw new Error(`${response.statusText !== "" || response.status}`);
     }
