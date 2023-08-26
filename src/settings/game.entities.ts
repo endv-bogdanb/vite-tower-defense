@@ -16,11 +16,16 @@ export default class GameEntities {
 
   static placeBuilding = (): void => {
     const { activeTile } = this;
-    if (activeTile === undefined || activeTile?.occupied) {
+    if (
+      activeTile === undefined ||
+      activeTile?.occupied ||
+      GameState.coins - 25 < 0
+    ) {
       return;
     }
     this.buildings.push(new Building(activeTile.position));
     activeTile.occupied = true;
+    GameState.updateCoins(-25);
   };
 
   static shoot = (position: Position, enemy: Enemy): void => {

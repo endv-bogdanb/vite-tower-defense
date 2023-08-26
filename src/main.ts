@@ -1,4 +1,5 @@
 import "./style.css";
+import "./components";
 
 import { Game } from "./Game";
 import { GameAssets, GameEntities, GameSettings, GameState } from "./settings";
@@ -16,7 +17,7 @@ const loop = (): void => {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   GameState.ctx.drawImage(GameAssets.assets.get("game-map")!, 0, 0);
 
-  if (GameState.health === 0) {
+  if (GameState.life === 0) {
     Game.stop();
     const gameOver = document.querySelector("h1");
     gameOver?.setAttribute("style", "display:block");

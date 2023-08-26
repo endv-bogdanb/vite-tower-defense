@@ -49,9 +49,14 @@ export default class Enemy extends Sprite {
   protected override readonly debug = (): void => {};
 
   public readonly hit = (): void => {
+    if (this.health === 0) {
+      return;
+    }
+
     this.health = Math.max(0, this.health - 20);
     if (this.health === 0) {
       GameEntities.removeEnemy(this);
+      GameState.updateCoins();
     }
   };
 
@@ -80,7 +85,7 @@ export default class Enemy extends Sprite {
   private readonly isOffMap = (): void => {
     if (this.x > GameSettings.canvas.width) {
       GameEntities.removeEnemy(this);
-      GameState.health = Math.max(0, GameState.health - 1);
+      GameState.hit();
     }
   };
 

@@ -10,7 +10,8 @@ export default class GameState {
   static readonly ctx: CanvasRenderingContext2D;
   static readonly frames = 0;
   static round = 0;
-  static health = 10;
+  static life = 10;
+  static coins = 50;
 
   // eslint-disable-next-line accessor-pairs
   static set context(ctx: CanvasRenderingContext2D) {
@@ -24,6 +25,26 @@ export default class GameState {
   static load = async (): Promise<void> => {
     await GameAssets.load();
     await Promise.all([GameEntities.load(), GameMouse.load()]);
+
+    const gameLife = document.querySelector("#life");
+    gameLife?.setAttribute("count", `${GameState.life}`);
+
+    const gameCoins = document.querySelector("#coin");
+    gameCoins?.setAttribute("count", `${GameState.coins}`);
+  };
+
+  static hit = (): void => {
+    this.life = Math.max(0, this.life - 1);
+
+    const gameLife = document.querySelector("#life");
+    gameLife?.setAttribute("count", `${GameState.life}`);
+  };
+
+  static updateCoins = (value = 25): void => {
+    this.coins += value;
+
+    const gameCoins = document.querySelector("#coin");
+    gameCoins?.setAttribute("count", `${GameState.coins}`);
   };
 
   static schedule = (loop: FrameRequestCallback): void => {

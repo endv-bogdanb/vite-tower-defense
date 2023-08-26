@@ -1,14 +1,31 @@
 html,
 body {
   background-color: #000000;
+  font-size: 2rem;
+}
+
+.wrapper {
+  position: relative;
+  display: inline-block;
 }
 
 .game-over {
   display: none;
   position: absolute;
   width: fit-content;
-  transform: translate(calc(50vw / 2), -50vh);
+  top: 25%;
+  left: 25%;
   font-size: 6rem;
   color: #ffffff;
   -webkit-text-stroke: 3px #000000;
+}
+
+.stats {
+  display: flex;
+  position: absolute;
+  top: 0;
+  right: 0;
+  justify-content: center;
+  align-items: center;
+  gap: 32px;
 }
