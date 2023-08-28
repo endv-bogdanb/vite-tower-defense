@@ -3,7 +3,21 @@ export interface Waypoint {
   y: number;
 }
 
-const ASSETS = ["game-map", "projectile", "orc", "tower", "explosion"] as const;
+export const ASSETS = [
+  "game-map",
+  "projectile",
+  "orc",
+  "tower",
+  "explosion",
+] as const;
+
+export enum AssetEnum {
+  GAME_MAP = 0,
+  PROJECTILE,
+  ORC,
+  TOWER,
+  EXPLOSION,
+}
 
 export interface Asset {
   src: (typeof ASSETS)[number];

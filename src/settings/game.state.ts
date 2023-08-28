@@ -25,12 +25,6 @@ export default class GameState {
   static load = async (): Promise<void> => {
     await GameAssets.load();
     await Promise.all([GameEntities.load(), GameMouse.load()]);
-
-    const gameLife = document.querySelector("#life");
-    gameLife?.setAttribute("count", `${GameState.life}`);
-
-    const gameCoins = document.querySelector("#coin");
-    gameCoins?.setAttribute("count", `${GameState.coins}`);
   };
 
   static hit = (): void => {

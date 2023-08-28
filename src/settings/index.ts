@@ -1,5 +1,5 @@
 export type * from "./game.assets";
-export { default as GameAssets } from "./game.assets";
+export { default as GameAssets, AssetEnum, ASSETS } from "./game.assets";
 export type * from "./game.entities";
 export { default as GameEntities } from "./game.entities";
 export type * from "./game.mouse";

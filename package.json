@@ -10,7 +10,9 @@
     "lint": "eslint --ext .ts .",
     "lint:fix": "npm run lint -- --fix"
   },
-  "dependencies": {},
+  "dependencies": {
+    "bitecs": "0.3.40"
+  },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "6.4.1",
     "@typescript-eslint/parser": "6.4.1",
